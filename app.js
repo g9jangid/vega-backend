@@ -3,14 +3,29 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require("cors");
 
-var indexRouter = require('./routes/index');
+var indexRouter = require("./routes/index");
 
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+
+const allowedOrigins = [
+  "https://vegacompass.com",
+  "https://www.vegacompass.com",
+]; // Replace with your actual domain
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST"], // Allow specific HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
+    credentials: true, // Allow cookies if needed
+  })
+);
 
 app.use(logger('dev'));
 app.use(express.json());
